@@ -53,6 +53,21 @@ This project has been created for learing purposes only.
 
 ## Technologies
 
+- [Client-Side Rendering (CSR) with React](https://reactjs.org/docs/create-a-new-react-app.html)
+- Routing: [React Router](https://reactrouter.com/)
+- Styling: [styled components](https://styled-components.com/)
+- Remote State Management: [React Query](https://react-query.tanstack.com/)
+- UI State Management: [Context API](https://reactjs.org/docs/context.html)
+- Form Management: [React Hook Form](https://react-hook-form.com/)
+
+**Other Tools:**
+
+- React icons: [https://react-icons.github.io/react-icons/](https://react-icons.github.io/react-icons/)
+- React hot toast: [https://react-hot-toast.com/](https://react-hot-toast.com/)
+- Recharts: [https://recharts.org/](https://recharts.org/)
+- date-fns: [https://date-fns.org/](https://date-fns.org/)
+- Supabase: [https://supabase.io/](https://supabase.io/)
+
 ## Installation
 
 Instructions on how to install and set up your project.
