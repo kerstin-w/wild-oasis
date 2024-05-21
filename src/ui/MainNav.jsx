@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const NavList = styled.ul`
   display: flex;
@@ -44,3 +44,9 @@ const Link = styled.a`
     color: var(--color-brand-600);
   }
 `;
+
+function MainNav() {
+  return <nav>NAV</nav>;
+}
+
+export default MainNav;
