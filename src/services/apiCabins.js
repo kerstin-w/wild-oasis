@@ -1,4 +1,5 @@
 import supabase from './supabase';
+import { supabaseUrl } from './supabase';
 
 /**
  * This JavaScript function uses Supabase to fetch all data from the 'cabins' table asynchronously.
@@ -21,14 +22,38 @@ export async function getCabins() {
  * @returns The `createCabin` function is returning the `data` from the insert operation on the 'cabins' table in the Supabase database.
  */
 export async function createCabin(newCabin) {
+  const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
+    '/',
+    ''
+  );
+
+  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+
+  // Create Cabin
   const { data, error } = await supabase
     .from('cabins')
-    .insert([newCabin])
+    .insert([{ ...newCabin, image: imagePath }])
     .select();
 
   if (error) {
     console.error(error);
     throw new Error('Cabins could not be created');
+  }
+
+  // Upload Image
+
+  const { error: storageError } = await supabase.storage
+    .from('cabin-images')
+    .upload(imageName, newCabin.image);
+
+  console.log(supabaseUrl);
+
+  // Delete Cabin if there is an error
+  if (storageError) {
+    await supabase.from('cabins').delete().eq('id', data.id);
+    throw new Error(
+      'Image could not be uploaded and the cabin was not created'
+    );
   }
   return data;
 }
