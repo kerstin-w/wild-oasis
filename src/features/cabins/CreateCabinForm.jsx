@@ -3,6 +3,8 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createEditCabin } from '../../services/apiCabins';
+import { useCreateCabin } from './useCreateCabin';
+
 import Input from '../../ui/Input';
 import Form from '../../ui/Form';
 import Button from '../../ui/Button';
@@ -18,20 +20,9 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
+  const { isCreating, createCabin } = useCreateCabin();
 
   const queryClient = useQueryClient();
-
-  const { mutate: createCabin, isLoading: isCreating } = useMutation({
-    mutationFn: createEditCabin,
-    onSuccess: () => {
-      toast.success('New Cabin created');
-      queryClient.invalidateQueries({ queryKey: ['cabins'] });
-      reset();
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
 
   const { mutate: editCabin, isLoading: isEditing } = useMutation({
     mutationFn: ({ newCabinData, id }) => createEditCabin(newCabinData, id),
@@ -50,11 +41,22 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     const image = typeof data.image === 'object' ? data.image[0] : data.image;
 
     if (isEditSession)
-      editCabin({
-        newCabinData: { ...data, image },
-        id: editId,
-      });
-    else createCabin({ ...data, image });
+      editCabin(
+        {
+          newCabinData: { ...data, image },
+          id: editId,
+        },
+        {
+          onSuccess: (data) => reset(),
+        }
+      );
+    else
+      createCabin(
+        { ...data, image },
+        {
+          onSuccess: (data) => reset(),
+        }
+      );
   }
 
   function onError(errors) {
