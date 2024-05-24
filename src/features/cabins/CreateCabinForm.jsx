@@ -120,7 +120,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       <FormRow
         label="Description for website"
         error={errors?.description?.message}
-        disabled={isWorking}
       >
         <Textarea
           type="number"
