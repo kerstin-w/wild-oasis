@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import Button from "./Button";
-import Heading from "./Heading";
+import styled from 'styled-components';
+import Button from './Button';
+import Heading from './Heading';
 
 const StyledConfirmDelete = styled.div`
   width: 40rem;
@@ -20,7 +20,9 @@ const StyledConfirmDelete = styled.div`
   }
 `;
 
-function ConfirmDelete({ resourceName, onConfirm, disabled }) {
+/** The `ConfirmDelete` function is a React functional component that takes in four props:
+`resourceName`, `onConfirm`, `disabled`, and `onCloseModal`. Inside the function, it returns JSX code that represents a confirmation modal for deleting a specific resource. */
+function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
   return (
     <StyledConfirmDelete>
       <Heading as="h3">Delete {resourceName}</Heading>
@@ -30,10 +32,14 @@ function ConfirmDelete({ resourceName, onConfirm, disabled }) {
       </p>
 
       <div>
-        <Button variation="secondary" disabled={disabled}>
+        <Button
+          variation="secondary"
+          disabled={disabled}
+          onClick={onCloseModal}
+        >
           Cancel
         </Button>
-        <Button variation="danger" disabled={disabled}>
+        <Button variation="danger" disabled={disabled} onClick={onConfirm}>
           Delete
         </Button>
       </div>
