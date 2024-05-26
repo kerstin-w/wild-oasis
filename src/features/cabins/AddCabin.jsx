@@ -1,25 +1,29 @@
-import { useState } from 'react';
-
 import Button from '../../ui/Button';
 import CreateCabinForm from './CreateCabinForm';
 import Modal from '../../ui/Modal';
+import CabinTable from './CabinTable';
 
-/* The `AddCabin` function is a component that renders a button labeled "Add new cabin". When this button is clicked, it toggles the state of `isOpenModal` using the `setIsOpenModal` function. If `isOpenModal` is true, it renders a `Modal` component with a `CreateCabinForm` component inside
-it. The `Modal` component has a prop `onClose` which sets `isOpenModal` to false when the modal is closed. The `CreateCabinForm` component also has a prop `onCloseModal` which sets `isOpenModal` to false when the form is closed. This setup allows the user to open and close a modal for creating a new cabin. */
+/**
+ * The AddCabin function renders a Modal component with options to add a new cabin or show a table.
+ * @returns A function named AddCabin is being returned. This function renders a Modal component with two sets of Modal.Open and Modal.Window components. The first set allows the user to add a new cabin using a CreateCabinForm component when clicking on a Button labeled "Add new cabin". The second set allows the user to show a table of cabins using a CabinTable component when clicking on a Button labeled "table"
+ */
 function AddCabin() {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
   return (
-    <div>
-      <Button onClick={() => setIsOpenModal((show) => !show)}>
-        Add new cabin
-      </Button>
-      {isOpenModal && (
-        <Modal onClose={() => setIsOpenModal(false)}>
-          <CreateCabinForm onCloseModal={() => setIsOpenModal(false)} />
-        </Modal>
-      )}
-    </div>
+    <Modal>
+      <Modal.Open opens="cabin-form">
+        <Button>Add new cabin</Button>
+      </Modal.Open>
+      <Modal.Window name="cabin-form">
+        <CreateCabinForm />
+      </Modal.Window>
+
+      <Modal.Open opens="table">
+        <Button>Show Table</Button>
+      </Modal.Open>
+      <Modal.Window name="table">
+        <CabinTable />
+      </Modal.Window>
+    </Modal>
   );
 }
 

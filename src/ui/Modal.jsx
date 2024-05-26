@@ -1,3 +1,4 @@
+import { cloneElement, createContext, useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
@@ -51,18 +52,59 @@ const Button = styled.button`
   }
 `;
 
-function Modal({ children, onClose }) {
+// Create Context for Model
+const ModalContext = createContext();
+
+/**
+ * The Modal component manages the state of whether a modal is open or closed in the application.
+ * @returns The Modal component is returning a ModalContext.Provider component with the value prop set to an object containing the open function, close function, and openName state variable. The children of the Modal component are rendered inside the ModalContext.Provider component.
+ */
+function Modal({ children }) {
+  const [openName, setOpenName] = useState('');
+
+  const close = () => setOpenName('');
+  const open = setOpenName;
+
+  return (
+    <ModalContext.Provider value={{ open, close, openName }}>
+      {children}
+    </ModalContext.Provider>
+  );
+}
+
+/**
+ * The `Open` function allows a child component to trigger the opening of a modal window specified by the `opensWindowName` prop.
+ * @returns The `Open` component is returning a clone of the `children` element with an `onClick` event handler that calls the `open` function from the `ModalContext` with the `opensWindowName` as an  argument.
+ */
+function Open({ children, opens: opensWindowName }) {
+  const { open } = useContext(ModalContext);
+
+  return cloneElement(children, { onClick: () => open(opensWindowName) });
+}
+
+/**
+ * The `Window` component renders a modal window with close functionality based on the `name` prop and context.
+ * @returns The `Window` component returns a modal window that is conditionally rendered based on the `name` prop matching the `openName` value from the `ModalContext`. If the `name` does not match `openName`, it returns `null`. Otherwise, it renders a modal overlay with a close button, the children elements with an added `onCloseModal` prop, and it is created
+ */
+function Window({ children, name }) {
+  const { openName, close } = useContext(ModalContext);
+
+  if (name !== openName) return null;
+
   return createPortal(
     <Overlay>
       <StyledModal>
-        <Button onClick={onClose}>
+        <Button onClick={close}>
           <HiXMark />
         </Button>
-        <div>{children}</div>
+        <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModal>
     </Overlay>,
     document.body
   );
 }
+
+Modal.Open = Open;
+Modal.Window = Window;
 
 export default Modal;
