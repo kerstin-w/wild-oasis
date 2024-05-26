@@ -2,6 +2,7 @@ import { cloneElement, createContext, useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 
 const StyledModal = styled.div`
   position: fixed;
@@ -66,7 +67,7 @@ function Modal({ children }) {
   const open = setOpenName;
 
   return (
-    <ModalContext.Provider value={{ open, close, openName }}>
+    <ModalContext.Provider value={{ openName, close, open }}>
       {children}
     </ModalContext.Provider>
   );
@@ -83,17 +84,18 @@ function Open({ children, opens: opensWindowName }) {
 }
 
 /**
- * The `Window` component renders a modal window with close functionality based on the `name` prop and context.
- * @returns The `Window` component returns a modal window that is conditionally rendered based on the `name` prop matching the `openName` value from the `ModalContext`. If the `name` does not match `openName`, it returns `null`. Otherwise, it renders a modal overlay with a close button, the children elements with an added `onCloseModal` prop, and it is created
+ * The `Window` function renders a modal window with close functionality based on the `name` prop and context.
+ * @returns The Window component is returning a modal window that is displayed when the `name` prop  matches the `openName` value from the ModalContext. The modal window includes an overlay, a styled modal with a close button, and the children elements passed to the Window component with an added prop `onCloseModal` which is set to the `close` function from the ModalContext. The modal window is rendered using the `createPortal` function from `react-dom`.
  */
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
+  const ref = useOutsideClick(close);
 
   if (name !== openName) return null;
 
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />
         </Button>
