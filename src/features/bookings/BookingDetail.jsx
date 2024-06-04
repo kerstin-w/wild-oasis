@@ -18,6 +18,10 @@ const HeadingGroup = styled.div`
   align-items: center;
 `;
 
+/**
+ * The BookingDetail component displays booking information and allows the user to navigate back.
+ * @returns The BookingDetail component is returning JSX elements that display the booking details including the booking ID, status tag, booking data box, and buttons for navigation. If the data is still loading, a Spinner component is displayed.
+ */
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
   const moveBack = useMoveBack();
