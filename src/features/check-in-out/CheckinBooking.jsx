@@ -10,9 +10,11 @@ import Spinner from '../../ui/Spinner';
 import Checkbox from '../../ui/Checkbox';
 import BookingDataBox from '../../features/bookings/BookingDataBox';
 import { formatCurrency } from '../../utils/helpers';
+
 import { useBooking } from '../bookings/useBooking';
 import { useCheckin } from './useCheckin';
 import { useMoveBack } from '../../hooks/useMoveBack';
+import { useSettings } from '../settings/useSettings';
 
 const Box = styled.div`
   /* Box */
@@ -24,7 +26,9 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const [confirmPaid, setConfirmedPaid] = useState(false);
+  const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBooking();
+  const { settings, isLoading: isLoadingSettings } = useSettings();
 
   /* The `useEffect` hook is used to update the state variable `confirmPaid` based on the value of `booking.isPaid`. */
   useEffect(() => setConfirmedPaid(booking?.isPaid ?? false), [booking]);
@@ -43,6 +47,9 @@ function CheckinBooking() {
     numNights,
   } = booking;
 
+  const optionalBreafastPrice =
+    settings?.breakfastPrice * numNights * numGuests;
+
   function handleCheckin() {
     if (!confirmPaid) return;
     checkin(bookingId);
@@ -56,6 +63,21 @@ function CheckinBooking() {
       </Row>
 
       <BookingDataBox booking={booking} />
+
+      {!hasBreakfast && (
+        <Box>
+          <Checkbox
+            checked={addBreakfast}
+            onChange={() => {
+              setAddBreakfast((add) => !add);
+              setConfirmedPaid(false);
+            }}
+            id="breakfast"
+          >
+            Want to add breakfast for {formatCurrency(optionalBreafastPrice)}?
+          </Checkbox>
+        </Box>
+      )}
 
       <Box>
         <Checkbox
