@@ -16,10 +16,11 @@ export function useCheckin() {
 
   /* The `useMutation` hook creates a mutation function for updating a booking to a 'checked-in' status and marking it as paid. */
   const { mutate: checkin, isLoading: isCheckingIn } = useMutation({
-    mutationFn: (bookingId) =>
+    mutationFn: ({ bookingId, breakfast }) =>
       updateBooking(bookingId, {
         status: 'checked-in',
         isPaid: true,
+        ...breakfast,
       }),
 
     onSuccess: (data) => {
