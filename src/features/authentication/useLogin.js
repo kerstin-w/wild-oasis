@@ -19,7 +19,7 @@ export function useLogin() {
     onSuccess: (user) => {
       queryClient.setQueriesData(['user'], user);
       // Redirect to dashboard
-      navigate('/dashboard');
+      navigate('/dashboard', { replace: true });
     },
     onError: (err) => {
       // Show error message
