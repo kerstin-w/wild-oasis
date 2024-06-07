@@ -11,10 +11,7 @@ export async function login({ email, password }) {
     password,
   });
 
-  if (error) {
-    throw new Error(error.message);
-  }
-
+  if (error) throw new Error(error.message);
   return data;
 }
 
@@ -28,9 +25,14 @@ export async function getCurrentUser() {
 
   const { data, error } = await supabase.auth.getUser();
 
-  if (error) {
-    throw new Error(error.message);
-  }
-
+  if (error) throw new Error(error.message);
   return data?.user;
+}
+
+/**
+ * The `logout` function uses Supabase authentication to sign out the current user and throws an error if there is any issue.
+ */
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw new Error(error.message);
 }
