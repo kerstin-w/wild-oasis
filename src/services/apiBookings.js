@@ -120,6 +120,16 @@ export async function updateBooking(id, obj) {
   return data;
 }
 
+/**
+ * This JavaScript function deletes a booking from a Supabase table based on the provided ID.
+ * @param id - The `deleteBooking` function is an asynchronous function that deletes a booking from a
+ * table named 'bookings' in a Supabase database based on the provided `id`. The function first
+ * attempts to delete the booking with the specified `id`. If the deletion is successful, it returns
+ * the deleted data
+ * @returns The `deleteBooking` function is returning the data of the deleted booking if the deletion
+ * is successful. If there is an error during the deletion process, an error message is logged to the
+ * console and an error is thrown with the message 'Booking could not be deleted'.
+ */
 export async function deleteBooking(id) {
   // REMEMBER RLS POLICIES
   const { data, error } = await supabase.from('bookings').delete().eq('id', id);
