@@ -13,13 +13,13 @@ function Account() {
       <Heading as="h1">Update your account</Heading>
 
       <Row>
-        <Collapse heading="Update user data" expanded="true">
+        <Collapse heading="Update user data" expanded={true}>
           <UpdateUserDataForm />
         </Collapse>
       </Row>
 
       <Row>
-        <Collapse heading="Update password" expanded="false">
+        <Collapse heading="Update password" expanded={false}>
           <UpdatePasswordForm />
         </Collapse>
       </Row>
