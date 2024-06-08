@@ -1,5 +1,10 @@
 import supabase from './supabase';
 
+/**
+ * The `signup` function uses Supabase authentication to sign up a user with their full name, email, and password, and returns the user data if successful.
+ * @returns The `signup` function is returning the `data` object if the signup process is successful.
+ * If there is an error during the signup process, it will throw an error with the error message.
+ */
 export async function signup({ fullName, email, password }) {
   const { data, error } = await supabase.auth.signUp({
     email,
