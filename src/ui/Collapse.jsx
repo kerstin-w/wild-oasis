@@ -13,7 +13,7 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: var(--color-brand-200);
+  background-color: var(--color-indigo-100);
   transition: all 0.3s ease-in-out;
 `;
 
