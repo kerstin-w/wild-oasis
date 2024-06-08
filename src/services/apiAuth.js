@@ -1,5 +1,20 @@
 import supabase from './supabase';
 
+export async function signup({ fullName, email, password }) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        fullName,
+        avatar: '',
+      },
+    },
+  });
+  if (error) throw new Error(error.message);
+  return data;
+}
+
 /**
  * This function uses Supabase authentication to sign in a user with their email and password.
  * @returns The `login` function is returning the `data` object if the login operation is successful.
