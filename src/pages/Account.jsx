@@ -1,7 +1,11 @@
+import React from 'react';
+
 import UpdatePasswordForm from '../features/authentication/UpdatePasswordForm';
 import UpdateUserDataForm from '../features/authentication/UpdateUserDataForm';
+
 import Heading from '../ui/Heading';
 import Row from '../ui/Row';
+import Collapse from '../ui/Collapse';
 
 function Account() {
   return (
@@ -9,13 +13,15 @@ function Account() {
       <Heading as="h1">Update your account</Heading>
 
       <Row>
-        <Heading as="h3">Update user data</Heading>
-        <UpdateUserDataForm />
+        <Collapse heading="Update user data" expanded="true">
+          <UpdateUserDataForm />
+        </Collapse>
       </Row>
 
       <Row>
-        <Heading as="h3">Update password</Heading>
-        <UpdatePasswordForm />
+        <Collapse heading="Update password" expanded="false">
+          <UpdatePasswordForm />
+        </Collapse>
       </Row>
     </>
   );
