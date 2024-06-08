@@ -9,9 +9,10 @@ import { getCurrentUser } from '../../services/apiAuth';
  * 3. `isAuthenticated`: A boolean value derived from the user data, indicating whether the user's role is 'authenticated'.
  */
 export function useUser() {
-  const { data: user, isLoading } = useQuery({
-    querKey: ['user'],
+  const { isLoading, data: user } = useQuery({
+    queryKey: ['user'],
     queryFn: getCurrentUser,
   });
-  return { user, isLoading, isAuthenticated: user?.role === 'authenticated' };
+
+  return { isLoading, user, isAuthenticated: user?.role === 'authenticated' };
 }

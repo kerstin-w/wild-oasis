@@ -62,18 +62,17 @@ export async function logout() {
  * @returns The function `updateCurrentUser` returns the updated user data after updating the password, full name, and avatar.
  */
 export async function updateCurrentUser({ password, fullName, avatar }) {
+  // 1. Update password OR fullName
   let updateData;
   if (password) updateData = { password };
   if (fullName) updateData = { data: { fullName } };
 
-  // 1. Update Password or Full Name
   const { data, error } = await supabase.auth.updateUser(updateData);
 
   if (error) throw new Error(error.message);
-
   if (!avatar) return data;
 
-  // 2. Update Avatar
+  // 2. Upload the avatar image
   const fileName = `avatar-${data.user.id}-${Math.random()}`;
 
   const { error: storageError } = await supabase.storage
@@ -82,13 +81,13 @@ export async function updateCurrentUser({ password, fullName, avatar }) {
 
   if (storageError) throw new Error(storageError.message);
 
-  // 3. Return updated user
-  const { data: updateduser, error: error2 } = supabase.auth.updateUser({
+  // 3. Update avatar in the user
+  const { data: updatedUser, error: error2 } = await supabase.auth.updateUser({
     data: {
       avatar: `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`,
     },
   });
 
   if (error2) throw new Error(error2.message);
-  return updateduser;
+  return updatedUser;
 }
