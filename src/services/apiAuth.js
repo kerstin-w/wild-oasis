@@ -1,4 +1,4 @@
-import supabase from './supabase';
+import supabase, { supabaseUrl } from './supabase';
 
 /**
  * The `signup` function uses Supabase authentication to sign up a user with their full name, email, and password, and returns the user data if successful.
@@ -55,4 +55,40 @@ export async function getCurrentUser() {
 export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
+}
+
+/**
+ * The function `updateCurrentUser` updates the current user's password, full name, and avatar in a  Supabase database.
+ * @returns The function `updateCurrentUser` returns the updated user data after updating the password, full name, and avatar.
+ */
+export async function updateCurrentUser({ password, fullName, avatar }) {
+  let updateData;
+  if (password) updateData = { password };
+  if (fullName) updateData = { data: { fullName } };
+
+  // 1. Update Password or Full Name
+  const { data, error } = await supabase.auth.updateUser(updateData);
+
+  if (error) throw new Error(error.message);
+
+  if (!avatar) return data;
+
+  // 2. Update Avatar
+  const fileName = `avatar-${data.user.id}-${Math.random()}`;
+
+  const { error: storageError } = await supabase.storage
+    .from('avatars')
+    .upload(fileName, avatar);
+
+  if (storageError) throw new Error(storageError.message);
+
+  // 3. Return updated user
+  const { data: updateduser, error: error2 } = supabase.auth.update({
+    data: {
+      avatar: `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`,
+    },
+  });
+
+  if (error2) throw new Error(error2.message);
+  return updateduser;
 }
