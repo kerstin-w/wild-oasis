@@ -52,6 +52,11 @@ export async function getBooking(id) {
 }
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
+/**
+ * The function `getBookingsAfterDate` retrieves bookings data from a database after a specified date.
+ * @param date - The `date` parameter in the `getBookingsAfterDate` function represents the starting date from which you want to retrieve bookings. The function will fetch bookings that were created on or after this specified date.
+ * @returns The function `getBookingsAfterDate` returns a Promise that resolves to an array of booking objects that have a `created_at` date greater than or equal to the provided `date`. Each booking object in the array contains the properties `created_at`, `totalPrice`, and `extrasPrice`. If there is an error during the retrieval of bookings, an error message is logged to the console and
+ */
 export async function getBookingsAfterDate(date) {
   const { data, error } = await supabase
     .from('bookings')
