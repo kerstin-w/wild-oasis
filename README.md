@@ -5,6 +5,8 @@ This is the internal application usied inside the hotel to check in guests as th
 
 This project has been created for learing purposes only.
 
+**Live Project:** [wild-oasis-murex.vercel.app/](https://wild-oasis-murex.vercel.app/)
+
 ## Table of Contents
 
 - [Business Requirements](#business-requirements)
@@ -71,3 +73,49 @@ This project has been created for learing purposes only.
 ## Installation
 
 Instructions on how to install and set up your project.
+
+## Installation
+
+To install and set up the project, follow these steps:
+
+1. Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/your-username/your-repo.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd your-repo
+```
+
+3. Install the dependencies using npm or yarn:
+
+```bash
+npm install
+```
+
+or
+
+```bash
+yarn install
+```
+
+4. Create a `.env` file in the root directory of the project and add the necessary environment variables. You can refer to the `.env.example` file for the required variables.
+
+5. Start the development server:
+
+```bash
+npm start
+```
+
+or
+
+```bash
+yarn start
+```
+
+Make sure you have Node.js and npm (or yarn) installed on your machine before proceeding with the installation.
+
+Note: The project dependencies and versions are specified in the `package.json` file. You can use the package manager of your choice (npm or yarn) to install them.
