@@ -8,7 +8,10 @@ const DarkModeContext = createContext();
  * @returns The DarkModeProvider component is being returned. It wraps the children components with the  DarkModeContext.Provider, providing the values of isDarkMode and toggleDarkMode to its children.
  */
 function DarkModeProvider({ children }) {
-  const [isDarkMode, setIsDarkMode] = useLocalStorageState(false, 'isDarkMode');
+  const [isDarkMode, setIsDarkMode] = useLocalStorageState(
+    window.matchMedia('(prefers-color-scheme: dark)').matches,
+    'isDarkMode'
+  );
 
   useEffect(
     function () {
